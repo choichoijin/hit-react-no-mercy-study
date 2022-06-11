@@ -1,33 +1,72 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { sliderInfo } from "./sliderInfo";
+
+let order = 1;
 
 function Slider() {
   const trackWidth = 1254;
-  const [order, setOrder] = useState(1);
-
   const [style, setStyle] = useState({
     //트릭 데이터로 인한 조정
     transform: `translateX(-${trackWidth}px)`,
   });
 
-  useEffect(() => {
-    let moveWidth = order * trackWidth;
+  //order가 바뀌면 transform으로 렌더링.
+  // useEffect(() => {
+  //   console.log(order);
+  //   const moveWidth = order * trackWidth;
+  //   if (order === 0 || order === 1 || order === 2) {
+  //     moveStyle(moveWidth);
+  //   }
+
+  //   if (order < 0) {
+  //     setTimeout(() => {
+  //       setOrder(2);
+  //       setStyle({
+  //         transition: ``,
+  //       });
+  //       replaceSlide(moveWidth);
+  //     }, 1000);
+  //   }
+  //   if (order > 3) {
+  //     setOrder(1);
+  //     setStyle({
+  //       transition: ``,
+  //     });
+  //     setTimeout(() => replaceSlide(moveWidth), 1000);
+  //   }
+  // }, [order]);
+
+  function moveStyle(distance) {
     setStyle({
-      transform: `translateX(-${moveWidth}px)`,
+      transform: `translateX(-${distance}px)`,
       transition: `all 0.3s ease-in-out`,
     });
-  }, [order]);
+  }
 
-  function move(where) {
+  function replaceSlide(distance) {
+    setStyle({
+      transform: `translateX(-${distance}px)`,
+    });
+  }
+
+  function handleOrder(direction) {
     //왼쪽 클릭시.
-    if (where === -1) {
-      setOrder((prevState) => prevState - 1);
-      console.log(order);
+    if (direction === -1) {
+      order = order - 1;
     } else {
       //오른쪽 클릭시.
-      setOrder((prevState) => prevState + 1);
-      //마지막이면?
+      order = order + 1;
+    }
+    moveStyle(order * trackWidth);
+
+    //무한 루프 핸들링.
+    if (order === 0) {
+      setTimeout(() => replaceSlide(order * trackWidth), 301);
+      order = 2;
+    } else if (order === 3) {
+      setTimeout(() => replaceSlide(order * trackWidth), 301);
+      order = 1;
     }
   }
 
@@ -41,8 +80,8 @@ function Slider() {
   return (
     <SliderArea>
       <h1>요즘 사람들이 좋아하는 공간의 비밀</h1>
-      <button onClick={() => move(-1)}>〈</button>
-      <button onClick={() => move(1)}>〉</button>
+      <button onClick={() => handleOrder(-1)}>〈</button>
+      <button onClick={() => handleOrder(1)}>〉</button>
       <SlideList>
         <ul style={style}>{slideList}</ul>
       </SlideList>
