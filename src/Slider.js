@@ -1,8 +1,36 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { sliderInfo } from "./sliderInfo";
 
 function Slider() {
+  const trackWidth = 1254;
+  const [order, setOrder] = useState(1);
+
+  const [style, setStyle] = useState({
+    //트릭 데이터로 인한 조정
+    transform: `translateX(-${trackWidth}px)`,
+  });
+
+  useEffect(() => {
+    let moveWidth = order * trackWidth;
+    setStyle({
+      transform: `translateX(-${moveWidth}px)`,
+      transition: `all 0.3s ease-in-out`,
+    });
+  }, [order]);
+
+  function move(where) {
+    //왼쪽 클릭시.
+    if (where === -1) {
+      setOrder((prevState) => prevState - 1);
+      console.log(order);
+    } else {
+      //오른쪽 클릭시.
+      setOrder((prevState) => prevState + 1);
+      //마지막이면?
+    }
+  }
+
   const slideList = sliderInfo.map((slide) => (
     <li key={slide.id}>
       <img src={slide.img} alt="" />
@@ -10,27 +38,11 @@ function Slider() {
     </li>
   ));
 
-  const [style, setStyle] = useState();
-
-  function moveLeft() {
-    setStyle({
-      transform: `translateX(627px)`,
-      transition: `all 0.4s ease-in-out`,
-    });
-  }
-
-  function moveRight() {
-    setStyle({
-      transform: `translateX(-1254px)`,
-      transition: `all 0.4s ease-in-out`,
-    });
-  }
-
   return (
     <SliderArea>
       <h1>요즘 사람들이 좋아하는 공간의 비밀</h1>
-      <button onClick={moveLeft}>〈</button>
-      <button onClick={moveRight}>〉</button>
+      <button onClick={() => move(-1)}>〈</button>
+      <button onClick={() => move(1)}>〉</button>
       <SlideList>
         <ul style={style}>{slideList}</ul>
       </SlideList>

@@ -7,6 +7,21 @@ import img6 from "assets/fave_card_img6.png";
 
 export const sliderInfo = [
   {
+    id: "졸업선물_트릭",
+    img: img4,
+    name: "네번째",
+  },
+  {
+    id: "아티스트_트릭",
+    img: img5,
+    name: "다섯번째",
+  },
+  {
+    id: "팝업스토어_트릭",
+    img: img6,
+    name: "여섯번째",
+  },
+  {
     id: "지우학",
     img: img1,
     name: "첫번째",
@@ -35,5 +50,20 @@ export const sliderInfo = [
     id: "팝업스토어",
     img: img6,
     name: "여섯번째",
+  },
+  {
+    id: "지우학_트릭",
+    img: img1,
+    name: "첫번째",
+  },
+  {
+    id: "보틀벙커_트릭",
+    img: img2,
+    name: "두번째",
+  },
+  {
+    id: "핫플기준_트릭",
+    img: img3,
+    name: "세번째",
   },
 ];
